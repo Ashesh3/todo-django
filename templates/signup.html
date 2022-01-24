@@ -1,0 +1,51 @@
+{% load static %}
+{% load tailwind_tags %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+    {% tailwind_css %}
+    <link href="{% static 'style.css' %}" rel="stylesheet" />
+    <title>Register</title>
+</head>
+
+<body class="pt-16">
+    <div class="flex flex-col justify-center items-center">
+        <form action="" method="post">
+            {% csrf_token %}
+
+            {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+            {% endfor %}
+
+            <span class="h-12 not-italic font-bold text-black text-4xl" style="font-family: Inter;">Todo Manager</span><br><br><br><br>
+
+            {{ form.non_field_errors }}
+
+            <span class="w-40 h-8 not-italic font-normal text-2xl leading-7 text-black">Signup</span><br><br><br>
+
+            {% for field in form.visible_fields %}
+            <label class="w-40 h-5 text-left text-lg tracking-normal" style="font-family: Inter;" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <div style="height:6px;"><br></div>
+            {{ field.errors }}
+            {{ field }}
+            <br>
+
+            <span class="h-4 not-italic font-normal text-xs leading-4 text-gray-600" style="font-family: Inter;">{{ field.help_text }}</span>
+
+            <br><br>
+            {% endfor %}
+
+            <br>
+            <input type="submit" class="rounded-xl bg-red-600 h-16 cursor-pointer text-center text-lg btn text-white hover:bg-red-500" value="Signup" />
+
+            <br><br>
+            <input type="button" class="rounded-xl bg-green-500 h-16 cursor-pointer text-center text-lg btn text-white hover:bg-green-400" value="Login" onclick="window.location='/user/login'" />
+        </form>
+    </div>
+</body>
+
+</html>

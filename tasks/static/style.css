@@ -1,0 +1,31 @@
+
+input:not([type=submit]):not([type=button]):not([type=checkbox]){ 
+	width:382px;
+	border:0;
+	height:48px;
+	background: #F1F5F9;
+	border-radius: 12px;
+}
+
+textarea {
+	width:382px;
+	border:0;
+	height:148px;
+	background: #F1F5F9;
+	border-radius: 12px;
+}
+
+input[type=checkbox]{
+	width: 25px;
+	height: 24px;
+	border:0;
+	background: #F1F5F9;
+	border-radius: 4px;
+	margin-left: 10px;
+}
+
+.btn { 
+	width: 382px; 
+	border: 0; 
+	font-family: Inter;
+}

@@ -1,0 +1,74 @@
+{% load static %}
+{% load tailwind_tags %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+    {% tailwind_css %}
+    <link href="{% static 'style.css' %}" rel="stylesheet" />
+    <title>Tasks</title>
+</head>
+
+<body class="pt-16">
+    <div>
+
+        <div class="flex flex-col justify-center items-center">
+            <span class="h-12 not-italic font-bold text-black text-4xl w-96" style="font-family: Inter;">Hi, {{request.user.username}}!</span>
+            <span class="font-bold text-xl leading-6 text-red-600" style="font-family: Inter; margin-left: 300px; margin-top: -1.8em;"><a href="/user/logout">Log out</a></span>
+        </div>
+
+        <div class="flex flex-col justify-center items-center">
+            <div style="display: flex; flex-direction: column; align-content: center;">
+                <span class="h-5 not-italic font-normal mt-6 text-base leading-5 text-gray-700 w-96">{{completed_tasks}} of {{total_tasks}} tasks completed</span><br>
+            </div>
+            <div class="flex justify-between font-semibold w-96">
+                <a class="px-7 py-2 rounded-full" id="filter_all" href="/tasks">All</a>
+                <a class="px-7 py-2 rounded-full" id="filter_pending" href="/tasks?filter=pending">Pending</a>
+                <a class="px-7 py-2 rounded-full" id="filter_completed" href="/tasks?filter=completed">Completed</a>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="flex flex-col justify-center items-center">
+            {% for task in tasks %}
+            <div class="flex flex-row bg-gray-100 rounded-xl w-[25rem] min-h-[5.6rem] m-3 pb-5" style="overflow-wrap: anywhere;">
+                <div class="flex items-center justify-center font-bold h-[24px] leading-6 mt-2 ml-2 text-center text-white w-[24px] rounded-full bg-blue-500 flex-grow-0 flex-shrink-0" style="font-family: Inter;">{{task.priority}}</div>
+                <div class="flex flex-col mt-5 ml-4 justify-start items-start">
+                    <a class="not-italic font-medium text-xl leading-6 {% if task.completed %} line-through text-rose-500 {%endif%}" href="/toggle_complete_task/{{task.id}}">{{task.title}}</a>
+                    <span class="not-italic font-medium text-base leading-5 text-slate-500 min-w-[169px]">{{task.created_date}}</span>
+                </div>
+                <div class="flex flex-row mt-5 mr-2 ml-16">
+                    <a class="w-10 h-10 bg-teal-400 hover:bg-teal-300 rounded-lg mr-3 flex justify-center items-center" href="/update_task/{{task.id}}">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.1667 2.5C14.3856 2.28113 14.6455 2.10752 14.9314 1.98906C15.2174 1.87061 15.5239 1.80965 15.8334 1.80965C16.1429 1.80965 16.4494 1.87061 16.7354 1.98906C17.0214 2.10752 17.2812 2.28113 17.5001 2.5C17.719 2.71887 17.8926 2.97871 18.011 3.26468C18.1295 3.55064 18.1904 3.85714 18.1904 4.16667C18.1904 4.4762 18.1295 4.7827 18.011 5.06866C17.8926 5.35463 17.719 5.61447 17.5001 5.83334L6.25008 17.0833L1.66675 18.3333L2.91675 13.75L14.1667 2.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                    <a class="w-10 h-10 bg-rose-500 hover:bg-rose-400 rounded-lg mr-3 flex justify-center items-center" href="/delete_task/{{task.id}}">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.5 5H4.16667H17.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M6.66675 5V3.33333C6.66675 2.8913 6.84234 2.46738 7.1549 2.15482C7.46746 1.84226 7.89139 1.66666 8.33342 1.66666H11.6667C12.1088 1.66666 12.5327 1.84226 12.8453 2.15482C13.1578 2.46738 13.3334 2.8913 13.3334 3.33333V5M15.8334 5V16.6667C15.8334 17.1087 15.6578 17.5326 15.3453 17.8452C15.0327 18.1577 14.6088 18.3333 14.1667 18.3333H5.83341C5.39139 18.3333 4.96746 18.1577 4.6549 17.8452C4.34234 17.5326 4.16675 17.1087 4.16675 16.6667V5H15.8334Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="flex flex-row justify-center items-center mt-20">
+            <a class="rounded-xl bg-red-600 hover:bg-red-500 cursor-pointer text-center text-lg btn text-white" href="/add_task"><span class="flex flex-row p-2 h-16 items-center justify-center">Add</span></a>
+        </div>
+
+    </div>
+
+    <script>
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const filter = urlSearchParams.get('filter') ? urlSearchParams.get('filter') : 'all';
+        let activeTab = document.querySelector(`#filter_${filter}`);
+        activeTab.classList.add('bg-rose-100', 'text-red-500');
+    </script>
+</body>
+
+</html>

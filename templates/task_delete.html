@@ -1,0 +1,54 @@
+{% load static %}
+{% load tailwind_tags %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+    {% tailwind_css %}
+    <link href="{% static 'style.css' %}" rel="stylesheet" />
+    <title>Delete Task</title>
+</head>
+
+<body class="pt-16">
+    <div class="flex flex-col justify-center items-center">
+        <form action="" method="post">
+            {% csrf_token %}
+
+            {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+            {% endfor %}
+
+            <span class="h-12 not-italic font-bold text-black text-4xl" style="font-family: Inter;">Todo Manager</span>
+            <br><br><br><br>
+
+            {{ form.non_field_errors }}
+
+            <span class="w-40 h-8 not-italic font-normal text-2xl leading-7 text-black">Are you sure you want to delete this task?</span>
+            <br><br><br>
+
+            <div class="flex flex-col justify-center items-center">
+
+                <div class="flex flex-row bg-gray-100 rounded-xl w-[25rem] min-h-[5.6rem] m-3 pb-5" style="overflow-wrap: anywhere;">
+                    <div class="flex items-center justify-center font-bold h-[24px] leading-6 mt-2 ml-2 text-center text-white w-[24px] rounded-full bg-blue-500 flex-grow-0 flex-shrink-0" style="font-family: Inter;">{{object.priority}}</div>
+                    <div class="flex flex-col mt-5 ml-4 justify-start items-start">
+                        <span class="not-italic font-medium text-xl leading-6 {% if object.completed %} line-through text-rose-500 {%endif%}">{{object.title}}</span>
+                        <span class="not-italic font-medium text-base leading-5 text-slate-500">{{object.created_date}}</span>
+                    </div>
+                </div>
+                <br>
+
+                <div class="mt-20">
+                    <input type="submit" class="rounded-xl bg-red-600 hover:bg-red-500 h-16 cursor-pointer text-center text-lg btn text-white" value="Delete" />
+                    <br><br>
+                    <input type="button" class="rounded-xl bg-green-500 hover:bg-green-400 h-16 cursor-pointer text-center text-lg btn text-white" value="Cancel" onclick="window.location='/tasks'" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+
+</html>
