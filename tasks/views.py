@@ -119,6 +119,8 @@ class DeleteTaskView(AuthorisationCheck, DeleteView):
 
 
 def toggle_complete_task(request, pk):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/user/login")
     task = Task.objects.filter(id=pk, deleted=False, user=request.user)
     if task.exists():
         task.update(completed=not task[0].completed)
