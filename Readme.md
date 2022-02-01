@@ -12,8 +12,9 @@ A simple but beautiful task management app written in Django, with Tailwind CSS.
 # Running
 1. Install requirements `pip install -r requirements.txt`
 2. Start the server `python manage.py runserver`
-3. (Optional) Start the CSS builder `python manage.py tailwind start`
-4. Visit the app at http://127.0.0.1:8000/
+3. Install Tailwind dependencies `python manage.py tailwind install`
+4. (Optional) Start the CSS builder `python manage.py tailwind start`
+5. Visit the app at http://127.0.0.1:8000/
 
 # Screenshots
 
